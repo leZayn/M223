@@ -1,0 +1,8 @@
+ch/noser/uek223/Uek223ApplicationTests.java
+ ch.noser.uek223.Uek223ApplicationTests
+ch/noser/uek223/domain/user/UserIntegrationTest.java
+ ch.noser.uek223.domain.user.UserIntegrationTest
+ch/noser/uek223/domain/user/UserServiceImplUnitTest.java
+ ch.noser.uek223.domain.user.UserServiceImplUnitTest
+ch/noser/uek223/domain/user/UserWebTest.java
+ ch.noser.uek223.domain.user.UserWebTest

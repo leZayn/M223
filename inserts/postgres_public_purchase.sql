@@ -1,0 +1,1 @@
+INSERT INTO public.purchase (id, customer_id) VALUES ('e71684f5-e149-4bf2-988c-2c0211ce922c', '2d47cd95-8849-438f-8f33-66ea1a2de338');
