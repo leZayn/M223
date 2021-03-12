@@ -1,2 +1,0 @@
-INSERT INTO public.product_purchase (id, amount, product_id, purchase_id) VALUES ('dec08bb9-fb34-4581-85e4-db996123b8a5', 4, 'de1ee453-684c-402f-93d9-c4d412725447', 'e71684f5-e149-4bf2-988c-2c0211ce922c');
-INSERT INTO public.product_purchase (id, amount, product_id, purchase_id) VALUES ('5a084c8c-977f-4b89-89b3-987591c90d32', 3, '9d677c3e-809b-4705-b42a-bd4f6333d8af', 'e71684f5-e149-4bf2-988c-2c0211ce922c');

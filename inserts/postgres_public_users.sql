@@ -1,4 +1,0 @@
-INSERT INTO public.users (id, email, first_name, password_hash, surname) VALUES ('f605d721-dea9-4f16-b6ce-4e93e8433c59', 'ma@mail.com', 'Emily', 'EA', 'Admin');
-INSERT INTO public.users (id, email, first_name, password_hash, surname) VALUES ('9b8692bb-ba60-41fe-812c-7f741572c78e', 'js@mail.com', 'John', 'JS', 'Supplier');
-INSERT INTO public.users (id, email, first_name, password_hash, surname) VALUES ('2d47cd95-8849-438f-8f33-66ea1a2de338', 'mc@mail.com', 'Mike', 'MC', 'Customer');
-INSERT INTO public.users (id, email, first_name, password_hash, surname) VALUES ('5b00006d-b27e-4977-9c42-905000ace0eb', 'cg@mail.com', 'Clara', 'CG', 'Guest');
