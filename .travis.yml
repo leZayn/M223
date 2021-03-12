@@ -1,0 +1,34 @@
+language: node_js
+<<<<<<< HEAD
+
+node_js:
+  - 10
+  
+stages:
+  - continousIntegration
+  
+before_install:
+  - chmod +x gradlew
+  - sudo apt-get update
+  
+=======
+node_js:
+  - 10
+stages:
+  - continousIntegration
+before_install:
+  - chmod +x gradlew
+  - sudo apt-get update
+>>>>>>> 2e50959a2defbc2ffad1a38f36a140f3b2b7fae6
+addons:
+  sonarcloud:
+    organization: $SONAR_USER
+    token: $SONAR_TOKEN
+<<<<<<< HEAD
+    
+=======
+>>>>>>> 2e50959a2defbc2ffad1a38f36a140f3b2b7fae6
+jobs:
+  include:
+    - stage: continousIntegration
+      script: ./gradlew sonarqube
