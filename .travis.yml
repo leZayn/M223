@@ -1,4 +1,5 @@
 language: node_js
+<<<<<<< HEAD
 
 node_js:
   - 10
@@ -10,11 +11,23 @@ before_install:
   - chmod +x gradlew
   - sudo apt-get update
   
+=======
+node_js:
+  - 10
+stages:
+  - continousIntegration
+before_install:
+  - chmod +x gradlew
+  - sudo apt-get update
+>>>>>>> b26c1636a007111582d5deb9df9da5a69ca8cd42
 addons:
   sonarcloud:
     organization: $SONAR_USER
     token: $SONAR_TOKEN
+<<<<<<< HEAD
     
+=======
+>>>>>>> b26c1636a007111582d5deb9df9da5a69ca8cd42
 jobs:
   include:
     - stage: continousIntegration
