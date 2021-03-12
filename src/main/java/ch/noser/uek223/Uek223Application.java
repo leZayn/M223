@@ -9,4 +9,5 @@ public class Uek223Application {
 	public static void main(String[] args) {
 		SpringApplication.run(Uek223Application.class, args);
 	}
+
 }

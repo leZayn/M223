@@ -1,54 +1,64 @@
 package ch.noser.uek223.domain.product;
 
-import ch.noser.uek223.domain.product.dto.ProductDTOForSupplier;
+import ch.noser.uek223.domain.product.dto.ProductDTOWithoutPurchasePrice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/products")
 public class ProductWeb {
 
-    private ProductService productService;
     private ProductMapper productMapper;
 
+    private final ProductService productService;
+
     @Autowired
-    public ProductWeb(ProductService productService, ProductMapper productMapper) {
-        this.productService = productService;
-        this.productMapper = productMapper;
+    public ProductWeb (ProductMapper productMapper,ProductService productService){this.productMapper = productMapper; this.productService = productService;}
+
+    @GetMapping("/products/{productId}")
+    public ResponseEntity<ProductDTOWithoutPurchasePrice> findById(@PathVariable("productId") String productId){
+        return ResponseEntity.ok().body(productMapper.productToProductDTOToWithoutPurchasePrice(productService.findById(productId)));
     }
 
-    @GetMapping({"", "/"})
-    @PreAuthorize("hasRole('SUPPLIER')")
-    public ResponseEntity<List<ProductDTOForSupplier>> findNonArchivedForSupplier() {
-        return ResponseEntity.ok().body(productMapper.productsToProductDTOsForSupplier(productService.findByArchived(false)));
+
+//    @Autowired
+//    public ProductWeb(ProductService productService) {
+//        this.productService = productService;
+//    }
+
+    @GetMapping("/")
+    public ResponseEntity<List<Product>> findAll(@RequestParam("archived") Optional<Boolean> archived, @RequestParam("outOfStock") Optional<Boolean> showOutOfStock) {
+        return ResponseEntity.ok().body(productService.findAll(archived, showOutOfStock));
     }
 
-    @GetMapping(value = {"", "/"}, params = {"inclArchived=true"})
-    @PreAuthorize("hasRole('SUPPLIER')")
-    public ResponseEntity<List<ProductDTOForSupplier>> findAllForSupplier() {
-        return ResponseEntity.ok().body(productMapper.productsToProductDTOsForSupplier(productService.findAll()));
+//    @GetMapping("/{productId}")
+//    public ResponseEntity<Product> findById(@PathVariable("productId") String id) {
+//        return ResponseEntity.ok().body(productService.findById(id).get());
+//    }
+
+    @PostMapping("/")
+    public ResponseEntity<Product> save(@RequestBody Product product) {
+        return ResponseEntity.ok().body(productService.save(product));
     }
 
-    @GetMapping({"/{id}", "/{id}/"})
-    @PreAuthorize("hasRole('SUPPLIER')")
-    public ResponseEntity<ProductDTOForSupplier> findByIdForSupplier(@PathVariable("id") UUID id) {
-        return ResponseEntity.ok().body(productMapper.productToProductDTOForSupplier(productService.findById(id)));
+    @PutMapping("/{productId}")
+    public ResponseEntity<Product> update(@PathVariable("productId") String id,
+                                          @RequestBody Product product) {
+        return ResponseEntity.ok().body(productService.update(id, product));
     }
 
-    @GetMapping({"/{lower}/{upper}", "/{lower}/{upper}/"})
-    @PreAuthorize("hasRole('SUPPLIER')")
-    public ResponseEntity<List<ProductDTOForSupplier>> findByPriceWithBoundsForSupplier(@PathVariable("lower") float lower, @PathVariable("upper") float upper) {
-        return ResponseEntity.ok().body(productMapper.productsToProductDTOsForSupplier(productService.findByPriceWithBounds(lower, upper)));
+    @GetMapping("/{lowerBound}/{upperBound}")
+    public ResponseEntity<List<Product>> findAllBetween(@PathVariable("lowerBound") double lowerBound, @PathVariable("upperBound") double upperBound, @RequestParam("archived") Optional<Boolean> archived, @RequestParam("outOfStock") Optional<Boolean> showOutOfStock) {
+        return ResponseEntity.ok().body(productService.findAllBetweenPrice(lowerBound, upperBound
+                , archived, showOutOfStock));
     }
-
-    @DeleteMapping({"/{id}", "/{id}/"})
-    @PreAuthorize("hasRole('SUPPLIER')")
-    public ResponseEntity<ProductDTOForSupplier> archiveByIdForSupplier(@PathVariable("id") UUID id) {
-        return ResponseEntity.ok().body(productMapper.productToProductDTOForSupplier(productService.archiveById(id)));
-    }
+//
+//    @DeleteMapping("/{productId}")
+//    public ResponseEntity<Product> archiveById(@PathVariable("productId") String id) {
+//        return ResponseEntity.ok().body(productService.archiveById(id));
+//    }
 }

@@ -2,6 +2,8 @@ package ch.noser.uek223.domain.role;
 
 import ch.noser.uek223.domain.authority.Authority;
 import ch.noser.uek223.domain.user.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -10,7 +12,6 @@ import java.util.UUID;
 
 @Entity
 public class Role {
-
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(
@@ -23,20 +24,19 @@ public class Role {
                     )
             }
     )
-    @Column(updatable = false, nullable = false)
+    @Column(name = "id", updatable = true, nullable = true)
     private UUID id;
-
-    @Column(unique = true, nullable = false)
+    @Column(nullable = true, unique = true)
     private String name;
-
-    @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
+    @JsonBackReference
+    @ManyToMany(mappedBy = "roles")
     private Set<User> users;
-
+    @JsonManagedReference
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-            name = "role_authority",
-            joinColumns = @JoinColumn(name = "role_id"),
-            inverseJoinColumns = @JoinColumn(name = "authority_id")
+            name = "role_authorities",
+            joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "authorities_id", referencedColumnName = "id")
     )
     private Set<Authority> authorities;
 

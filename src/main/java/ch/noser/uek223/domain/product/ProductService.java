@@ -1,17 +1,29 @@
 package ch.noser.uek223.domain.product;
 
 import java.util.List;
-import java.util.UUID;
+import java.util.Optional;
 
 public interface ProductService {
 
-    List<Product> findByArchived(boolean archived);
+    List<Product> findAll(Optional<Boolean> showArchived, Optional<Boolean> showOutOfStock);
 
-    List<Product> findAll();
 
-    Product findById(UUID id);
 
-    List<Product> findByPriceWithBounds(float lower, float upper);
+    List<Product> findAllAvailable();
 
-    Product archiveById(UUID id);
+    List<Product> findAllArchived();
+
+    List<Product> findAllOutOfStock();
+
+    Product findById(String id);
+
+    Product save(Product product);
+
+    Product update(String id, Product changes);
+
+    List<Product> findAllBetweenPrice(double lower, double upper,
+                                      Optional<Boolean> showArchived,
+                                      Optional<Boolean> showOutOfStock);
+
+//    Product archiveById(String id);
 }

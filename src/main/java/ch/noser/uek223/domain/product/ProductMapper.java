@@ -1,17 +1,12 @@
 package ch.noser.uek223.domain.product;
 
-import ch.noser.uek223.domain.product.dto.ProductDTOBasic;
-import ch.noser.uek223.domain.product.dto.ProductDTOForSupplier;
+import ch.noser.uek223.domain.product.dto.ProductDTOWithPurchasePrice;
+import ch.noser.uek223.domain.product.dto.ProductDTOWithoutPurchasePrice;
 import org.mapstruct.Mapper;
-
-import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface ProductMapper {
+    ProductDTOWithoutPurchasePrice productToProductDTOToWithoutPurchasePrice(Product product);
+//    ProductDTOWithPurchasePrice productToProductDTOWithPurchasePrice(Product product);
 
-    ProductDTOBasic productToProductDTOCustomer(Product product);
-
-    ProductDTOForSupplier productToProductDTOForSupplier(Product product);
-
-    List<ProductDTOForSupplier> productsToProductDTOsForSupplier(List<Product> product);
 }

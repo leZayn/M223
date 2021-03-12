@@ -1,7 +1,8 @@
 package ch.noser.uek223.domain.product;
 
-import ch.noser.uek223.domain.purchase_product.PurchaseProduct;
+import ch.noser.uek223.domain.product_purchase.ProductPurchase;
 import ch.noser.uek223.domain.user.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -10,7 +11,6 @@ import java.util.UUID;
 
 @Entity
 public class Product {
-
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(
@@ -23,87 +23,107 @@ public class Product {
                     )
             }
     )
-    @Column(updatable = false, nullable = false)
+    @Column(name = "id", updatable = true, nullable = true)
     private UUID id;
 
-    @Column(nullable = false)
     private String description;
 
-    @Column(nullable = false)
-    private float retailPrice;
+    @Column(name = "selling_price", nullable = false)
+    private double sellingPrice;
 
-    @Column(nullable = false)
-    private float buyingPrice;
 
+    @Column(name = "purchase_price", nullable = false)
+    private double purchasePrice;
+
+    @Column(nullable = true)
+    private float price;
+
+    @Enumerated(EnumType.ORDINAL)
+    private Availability availability;
+
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.EAGER)
     private User supplier;
 
-    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
-    private Set<PurchaseProduct> purchaseProducts;
+    @JsonBackReference
+    @OneToMany(mappedBy = "product")
+    private Set<ProductPurchase> productPurchases;
 
-    @Column(nullable = false)
-    private boolean archived;
+    public Product(UUID id, String description, double sellingPrice, double purchasePrice, float price, Availability availability, User supplier, Set<ProductPurchase> productPurchases) {
+        this.id = id;
+        this.description = description;
+        this.sellingPrice = sellingPrice;
+        this.purchasePrice = purchasePrice;
+        this.price = price;
+        this.availability = availability;
+        this.supplier = supplier;
+        this.productPurchases = productPurchases;
+    }
+
+    public Product() {
+    }
 
     public UUID getId() {
         return id;
     }
 
-    public Product setId(UUID id) {
+    public void setId(UUID id) {
         this.id = id;
-        return this;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public Product setDescription(String description) {
+    public void setDescription(String description) {
         this.description = description;
-        return this;
     }
 
-    public float getRetailPrice() {
-        return retailPrice;
+    public double getSellingPrice() {
+        return sellingPrice;
     }
 
-    public Product setRetailPrice(float retailPrice) {
-        this.retailPrice = retailPrice;
-        return this;
+    public void setSellingPrice(double sellingPrice) {
+        this.sellingPrice = sellingPrice;
     }
 
-    public float getBuyingPrice() {
-        return buyingPrice;
+    public double getPurchasePrice() {
+        return purchasePrice;
     }
 
-    public Product setBuyingPrice(float buyingPrice) {
-        this.buyingPrice = buyingPrice;
-        return this;
+    public void setPurchasePrice(double purchasePrice) {
+        this.purchasePrice = purchasePrice;
+    }
+
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
+    }
+
+    public Availability getAvailability() {
+        return availability;
+    }
+
+    public void setAvailability(Availability availability) {
+        this.availability = availability;
     }
 
     public User getSupplier() {
         return supplier;
     }
 
-    public Product setSupplier(User supplier) {
+    public void setSupplier(User supplier) {
         this.supplier = supplier;
-        return this;
     }
 
-    public Set<PurchaseProduct> getPurchaseProducts() {
-        return purchaseProducts;
+    public Set<ProductPurchase> getProductPurchases() {
+        return productPurchases;
     }
 
-    public Product setPurchaseProducts(Set<PurchaseProduct> purchaseProducts) {
-        this.purchaseProducts = purchaseProducts;
-        return this;
-    }
-
-    public boolean isArchived() {
-        return archived;
-    }
-
-    public Product setArchived(boolean archived) {
-        this.archived = archived;
-        return this;
+    public void setProductPurchases(Set<ProductPurchase> productPurchases) {
+        this.productPurchases = productPurchases;
     }
 }

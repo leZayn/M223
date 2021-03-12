@@ -1,12 +1,12 @@
 package ch.noser.uek223.core.security.authentication;
 
-import ch.noser.uek223.domain.user.dto.UserDTOBasic;
+import ch.noser.uek223.domain.user.dto.UserDTOSupplierDetail;
 
 import java.util.UUID;
 
 public interface AuthenticationService {
 
-    UserDTOBasic getAuthenticationResponse(UUID userId);
+    UserDTOSupplierDetail getAuthenticationResponse(UUID userId);
 
     void authenticate(String authenticationHeader);
 

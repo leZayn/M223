@@ -3,16 +3,17 @@ package ch.noser.uek223.domain.user;
 import ch.noser.uek223.domain.product.Product;
 import ch.noser.uek223.domain.purchase.Purchase;
 import ch.noser.uek223.domain.role.Role;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Set;
 import java.util.UUID;
 
+
 @Entity
 @Table(name = "users")
 public class User {
-
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(
@@ -25,33 +26,31 @@ public class User {
                     )
             }
     )
-    @Column(updatable = false, nullable = false)
+    @Column(name = "id", updatable = true, nullable = false)
     private UUID id;
-
-    @Column(unique = true, nullable = false)
+    @Column(unique = true, nullable = false, length = 320)
     private String email;
-
     @Column(nullable = false)
-    private String password;
-
-    @Column(name = "first_name", nullable = false)
     private String firstName;
-
-    @Column(name = "last_name", nullable = false)
-    private String lastName;
-
+    @Column(nullable = false)
+    private String surname;
+    @Column(length = 60, nullable = false)
+    private String password;
+    @JsonManagedReference
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-            name = "users_role",
-            joinColumns = @JoinColumn(name = "users_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
+            name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
     )
     private Set<Role> roles;
 
-    @OneToMany(mappedBy = "supplier", fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "supplier")
     private Set<Product> products;
 
-    @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "customer")
     private Set<Purchase> purchases;
 
     public UUID getId() {
@@ -72,15 +71,6 @@ public class User {
         return this;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public User setPassword(String password) {
-        this.password = password;
-        return this;
-    }
-
     public String getFirstName() {
         return firstName;
     }
@@ -90,12 +80,21 @@ public class User {
         return this;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getSurname() {
+        return surname;
     }
 
-    public User setLastName(String lastName) {
-        this.lastName = lastName;
+    public User setSurname(String surname) {
+        this.surname = surname;
+        return this;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public User setPassword(String password) {
+        this.password = password;
         return this;
     }
 
@@ -124,5 +123,16 @@ public class User {
     public User setPurchases(Set<Purchase> purchases) {
         this.purchases = purchases;
         return this;
+    }
+
+    public User(UUID id, String email, String firstName, String surname, String password, Set<Role> roles, Set<Product> products, Set<Purchase> purchases) {
+        this.id = id;
+        this.email = email;
+        this.firstName = firstName;
+        this.surname = surname;
+        this.password = password;
+        this.roles = roles;
+        this.products = products;
+        this.purchases = purchases;
     }
 }

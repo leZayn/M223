@@ -20,17 +20,16 @@ public class AuthorityDTO {
         return id;
     }
 
-    public AuthorityDTO setId(UUID id) {
+    public void setId(UUID id) {
         this.id = id;
-        return this;
     }
 
     public String getName() {
         return name;
     }
 
-    public AuthorityDTO setName(String name) {
+    public void setName(String name) {
         this.name = name;
-        return this;
     }
 }
+

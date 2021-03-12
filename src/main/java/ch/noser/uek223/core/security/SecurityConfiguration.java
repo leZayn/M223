@@ -52,7 +52,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/v3/api-docs/**", "/webjars/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/users", "/users/").permitAll()
+                .antMatchers(HttpMethod.POST, "/users").permitAll()
                 .antMatchers(HttpMethod.POST, "/login").permitAll()
                 .anyRequest().authenticated()
                 .and()
@@ -83,7 +83,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Bean
     public LoginHandler loginHandler() throws Exception {
         return new LoginHandler(new AntPathRequestMatcher("/login", "POST"), authenticationManager(), objectMapper, jwtProperties,
-                authenticationService);
+            authenticationService);
     }
 
     @Bean

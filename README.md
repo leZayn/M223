@@ -1,4 +1,2 @@
-# uek223
-
-[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-black.svg)](https://sonarcloud.io/dashboard?id=fabriceberchtold_uek223)
-[![Build Status](https://travis-ci.com/fabriceberchtold/uek223.svg?branch=main)](https://travis-ci.com/fabriceberchtold/uek223)
+# uk2233
+[![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=anshikasengar_uk223)](https://sonarcloud.io/dashboard?id=anshikasengar_uk223)

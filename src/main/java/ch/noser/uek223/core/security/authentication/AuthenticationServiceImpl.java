@@ -1,15 +1,13 @@
 package ch.noser.uek223.core.security.authentication;
 
+import ch.noser.uek223.domain.user.UserMapper;
+import ch.noser.uek223.domain.user.dto.UserDTOSupplierDetail;
 import ch.noser.uek223.core.security.config.JWTProperties;
 import ch.noser.uek223.domain.user.User;
 import ch.noser.uek223.domain.user.UserDetailsImpl;
 import ch.noser.uek223.domain.user.UserService;
-import ch.noser.uek223.domain.user.dto.UserDTOBasic;
-import ch.noser.uek223.domain.user.UserMapper;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -40,12 +38,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     @Transactional
-    public UserDTOBasic getAuthenticationResponse(UUID userId) {
+    public UserDTOSupplierDetail getAuthenticationResponse(UUID userId) {
 
         User user = userService.findById(userId);
 
-        return userMapper.userToUserDTOBasic(user);
+        return userMapper.toDTO(user);
     }
+
 
     @Override
     public void authenticate(String authToken) {
@@ -63,8 +62,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
                 return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             } catch (JwtException | NoSuchElementException exception) {
-                Logger logger = LoggerFactory.getLogger(AuthenticationServiceImpl.class);
-                logger.error(exception.getMessage());
+                System.err.println(exception.getMessage());
             }
         }
 

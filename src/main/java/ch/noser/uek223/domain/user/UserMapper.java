@@ -1,21 +1,16 @@
 package ch.noser.uek223.domain.user;
 
-import ch.noser.uek223.domain.user.dto.UserDTOBasic;
-import ch.noser.uek223.domain.user.dto.UserDTOSave;
-import ch.noser.uek223.domain.user.dto.UserDTOWithoutRoles;
+import ch.noser.uek223.domain.authority.Authority;
+import ch.noser.uek223.domain.authority.dto.AuthorityDTO;
+import ch.noser.uek223.domain.user.dto.UserDTOSupplierDetail;
 import org.mapstruct.Mapper;
-import org.mapstruct.ReportingPolicy;
 
-import java.util.List;
+import java.util.Collection;
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(componentModel = "spring")
 public interface UserMapper {
 
-    UserDTOBasic userToUserDTOBasic(User user);
+    UserDTOSupplierDetail toDTO(User user);
+    User userDTOTOUser(UserDTOSupplierDetail user);
+    }
 
-    List<UserDTOBasic> usersToUserDTOsBasic(List<User> user);
-
-    User userDTOSaveToUser(UserDTOSave userDTOSave);
-
-    UserDTOWithoutRoles userToUserDTOWithoutRoles(User user);
-}

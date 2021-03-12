@@ -1,6 +1,7 @@
 package ch.noser.uek223.domain.authority;
 
 import ch.noser.uek223.domain.role.Role;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -9,7 +10,6 @@ import java.util.UUID;
 
 @Entity
 public class Authority {
-
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(
@@ -22,13 +22,12 @@ public class Authority {
                     )
             }
     )
-    @Column(updatable = false, nullable = false)
+    @Column(name = "id", updatable = true, nullable = true)
     private UUID id;
-
-    @Column(unique = true, nullable = false)
+    @Column(nullable = true, unique = true)
     private String name;
-
-    @ManyToMany(mappedBy = "authorities", fetch = FetchType.EAGER)
+    @JsonBackReference
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "authorities")
     private Set<Role> roles;
 
     public UUID getId() {

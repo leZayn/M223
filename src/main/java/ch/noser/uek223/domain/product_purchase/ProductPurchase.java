@@ -1,17 +1,16 @@
-package ch.noser.uek223.domain.purchase;
+package ch.noser.uek223.domain.product_purchase;
 
-import ch.noser.uek223.domain.product_purchase.ProductPurchase;
-import ch.noser.uek223.domain.user.User;
+import ch.noser.uek223.domain.product.Product;
+import ch.noser.uek223.domain.purchase.Purchase;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.Set;
 import java.util.UUID;
 
 @Entity
-public class Purchase {
+public class ProductPurchase {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(
@@ -27,38 +26,50 @@ public class Purchase {
     @Column(name = "id", updatable = true, nullable = true)
     private UUID id;
 
-    @JsonManagedReference
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "purchase")
-    private Set<ProductPurchase> productPurchases;
-
     @JsonBackReference
     @ManyToOne(fetch = FetchType.EAGER)
-    private User customer;
+    private Purchase purchase;
+
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Product product;
+
+    @Column(name = "amount", nullable = true)
+    private int amount;
 
     public UUID getId() {
         return id;
     }
 
-    public Purchase setId(UUID id) {
+    public ProductPurchase setId(UUID id) {
         this.id = id;
         return this;
     }
 
-    public Set<ProductPurchase> getProductPurchases() {
-        return productPurchases;
+    public Purchase getPurchase() {
+        return purchase;
     }
 
-    public Purchase setProductPurchases(Set<ProductPurchase> productPurchases) {
-        this.productPurchases = productPurchases;
+    public ProductPurchase setPurchase(Purchase purchase) {
+        this.purchase = purchase;
         return this;
     }
 
-    public User getCustomer() {
-        return customer;
+    public Product getProduct() {
+        return product;
     }
 
-    public Purchase setCustomer(User user) {
-        this.customer = user;
+    public ProductPurchase setProduct(Product product) {
+        this.product = product;
+        return this;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public ProductPurchase setAmount(int amount) {
+        this.amount = amount;
         return this;
     }
 }

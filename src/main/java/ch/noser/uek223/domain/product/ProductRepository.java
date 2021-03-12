@@ -8,6 +8,5 @@ import java.util.UUID;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, UUID> {
-
-    List<Product> findByArchived(boolean archived);
+    List<Product> findAllByAvailability(Availability availability);
 }
