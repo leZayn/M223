@@ -33,7 +33,7 @@ public class User {
     @Column(nullable = false)
     private String firstName;
     @Column(nullable = false)
-    private String surname;
+    private String lastName;
     @Column(length = 60, nullable = false)
     private String password;
     @JsonManagedReference
@@ -80,12 +80,12 @@ public class User {
         return this;
     }
 
-    public String getSurname() {
-        return surname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public User setSurname(String surname) {
-        this.surname = surname;
+    public User setLastName(String lastName) {
+        this.lastName = lastName;
         return this;
     }
 
@@ -125,11 +125,11 @@ public class User {
         return this;
     }
 
-    public User(UUID id, String email, String firstName, String surname, String password, Set<Role> roles, Set<Product> products, Set<Purchase> purchases) {
+    public User(UUID id, String email, String firstName, String lastName, String password, Set<Role> roles, Set<Product> products, Set<Purchase> purchases) {
         this.id = id;
         this.email = email;
         this.firstName = firstName;
-        this.surname = surname;
+        this.lastName = lastName;
         this.password = password;
         this.roles = roles;
         this.products = products;
