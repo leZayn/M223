@@ -19,7 +19,7 @@ stages:
 before_install:
   - chmod +x gradlew
   - sudo apt-get update
->>>>>>> b26c1636a007111582d5deb9df9da5a69ca8cd42
+>>>>>>> 2e50959a2defbc2ffad1a38f36a140f3b2b7fae6
 addons:
   sonarcloud:
     organization: $SONAR_USER
@@ -27,7 +27,7 @@ addons:
 <<<<<<< HEAD
     
 =======
->>>>>>> b26c1636a007111582d5deb9df9da5a69ca8cd42
+>>>>>>> 2e50959a2defbc2ffad1a38f36a140f3b2b7fae6
 jobs:
   include:
     - stage: continousIntegration
