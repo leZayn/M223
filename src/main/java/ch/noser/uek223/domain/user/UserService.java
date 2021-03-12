@@ -11,5 +11,5 @@ public interface UserService extends UserDetailsService {
 
     User findById(UUID id);
 
-    User create(User user);
+    User save(User user);
 }

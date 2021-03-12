@@ -32,9 +32,6 @@ public class Purchase {
     @ManyToOne(fetch = FetchType.EAGER)
     private User customer;
 
-    public Purchase() {
-    }
-
     public UUID getId() {
         return id;
     }

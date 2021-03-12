@@ -54,20 +54,6 @@ public class User {
     @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
     private Set<Purchase> purchases;
 
-    public User() {
-    }
-
-    public User(UUID id, String email, String password, String firstName, String lastName, Set<Role> roles, Set<Product> products, Set<Purchase> purchases) {
-        this.id = id;
-        this.email = email;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.roles = roles;
-        this.products = products;
-        this.purchases = purchases;
-    }
-
     public UUID getId() {
         return id;
     }

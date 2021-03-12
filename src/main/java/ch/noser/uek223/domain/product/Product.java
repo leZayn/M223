@@ -44,19 +44,6 @@ public class Product {
     @Column(nullable = false)
     private boolean archived;
 
-    public Product() {
-    }
-
-    public Product(UUID id, String description, float retailPrice, float buyingPrice, User supplier, Set<PurchaseProduct> purchaseProducts, boolean archived) {
-        this.id = id;
-        this.description = description;
-        this.retailPrice = retailPrice;
-        this.buyingPrice = buyingPrice;
-        this.supplier = supplier;
-        this.purchaseProducts = purchaseProducts;
-        this.archived = archived;
-    }
-
     public UUID getId() {
         return id;
     }

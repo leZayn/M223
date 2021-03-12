@@ -34,9 +34,6 @@ public class PurchaseProduct {
     @Column(nullable = false)
     private int amount;
 
-    public PurchaseProduct() {
-    }
-
     public UUID getId() {
         return id;
     }

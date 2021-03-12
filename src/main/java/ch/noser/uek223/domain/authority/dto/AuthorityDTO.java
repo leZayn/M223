@@ -14,7 +14,6 @@ public class AuthorityDTO {
     }
 
     public AuthorityDTO() {
-
     }
 
     public UUID getId() {

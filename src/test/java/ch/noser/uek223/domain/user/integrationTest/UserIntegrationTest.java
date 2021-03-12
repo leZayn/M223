@@ -1,4 +1,4 @@
-package ch.noser.uek223.domain.user;
+package ch.noser.uek223.domain.user.integrationTest;
 
 import ch.noser.uek223.domain.authority.Authority;
 import ch.noser.uek223.domain.authority.AuthorityRepository;
@@ -6,6 +6,9 @@ import ch.noser.uek223.domain.authority.dto.AuthorityDTO;
 import ch.noser.uek223.domain.role.Role;
 import ch.noser.uek223.domain.role.RoleRepository;
 import ch.noser.uek223.domain.role.dto.RoleDTO;
+import ch.noser.uek223.domain.user.User;
+import ch.noser.uek223.domain.user.UserMapper;
+import ch.noser.uek223.domain.user.UserRepository;
 import ch.noser.uek223.domain.user.dto.UserDTOBasic;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -23,9 +26,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.util.Collection;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -36,7 +37,7 @@ import static org.springframework.test.annotation.DirtiesContext.ClassMode.AFTER
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = AFTER_EACH_TEST_METHOD)
 @TestPropertySource("classpath:application-test.properties")
-public class UserIntegrationTest {
+class UserIntegrationTest {
 
     @Autowired
     private UserRepository userRepository;
@@ -54,17 +55,15 @@ public class UserIntegrationTest {
     private MockMvc mockMvc;
 
     @Test
-    @WithMockUser(username = "tester", password = "password")
-    public void findById_requestUserById_returnsUser() throws Exception {
-        UUID uuidToBeTestedAgainst = UUID.randomUUID();
-
+    @WithMockUser(username = "tester", authorities = "CAN_RETRIEVE_ALL_USERS")
+    void findById_requestUserById_returnsUser() throws Exception {
         Set<Authority> authoritiesToBeTestedAgainst = Stream.of(new Authority().setName("CAN_READ_ALL_PRODUCTS"), new Authority().setName("CAN_READ_PRODUCT"), new Authority().setName("CAN_UPDATE_PURCHASE"), new Authority().setName("CAN_DELETE_USER")).collect(Collectors.toSet());
         authorityRepository.saveAll(authoritiesToBeTestedAgainst);
 
         Set<Role> rolesToBeTestedAgainst = Stream.of(new Role().setName("CUSTOMER").setAuthorities(authoritiesToBeTestedAgainst)).collect(Collectors.toSet());
         roleRepository.saveAll(rolesToBeTestedAgainst);
 
-        User userToBeTestedAgainst = new User().setFirstName("John").setLastName("Tester").setEmail("jt@testmail.com").setPassword(new BCryptPasswordEncoder().encode(uuidToBeTestedAgainst.randomUUID().toString())).setRoles(rolesToBeTestedAgainst);
+        User userToBeTestedAgainst = new User().setFirstName("John").setLastName("Tester").setEmail("jt@testmail.com").setPassword(new BCryptPasswordEncoder().encode(UUID.randomUUID().toString())).setRoles(rolesToBeTestedAgainst);
         userRepository.save(userToBeTestedAgainst);
 
         UserDTOBasic userDTOToBeTestedAgainst = userMapper.userToUserDTOBasic(userToBeTestedAgainst);

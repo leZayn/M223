@@ -14,8 +14,8 @@ import java.util.UUID;
 @RequestMapping("/users")
 public class UserWeb {
 
-    private final UserService userService;
-    private final UserMapper userMapper;
+    private UserService userService;
+    private UserMapper userMapper;
 
     @Autowired
     public UserWeb(UserService userService, UserMapper userMapper) {
@@ -37,6 +37,6 @@ public class UserWeb {
 
     @PostMapping({"", "/"})
     public ResponseEntity<UserDTOBasic> create(@RequestBody UserDTOSave userDTOSave) {
-        return ResponseEntity.ok().body(userMapper.userToUserDTOBasic(userService.create(userMapper.userDTOSaveToUser(userDTOSave))));
+        return ResponseEntity.ok().body(userMapper.userToUserDTOBasic(userService.save(userMapper.userDTOSaveToUser(userDTOSave))));
     }
 }

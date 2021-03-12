@@ -40,9 +40,6 @@ public class Role {
     )
     private Set<Authority> authorities;
 
-    public Role() {
-    }
-
     public UUID getId() {
         return id;
     }

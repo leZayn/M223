@@ -31,9 +31,6 @@ public class Authority {
     @ManyToMany(mappedBy = "authorities", fetch = FetchType.EAGER)
     private Set<Role> roles;
 
-    public Authority() {
-    }
-
     public UUID getId() {
         return id;
     }

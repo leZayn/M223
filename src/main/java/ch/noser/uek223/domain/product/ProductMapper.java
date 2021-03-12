@@ -11,8 +11,6 @@ public interface ProductMapper {
 
     ProductDTOBasic productToProductDTOCustomer(Product product);
 
-    List<ProductDTOBasic> productsToProductDTOsCustomer(List<Product> product);
-
     ProductDTOForSupplier productToProductDTOForSupplier(Product product);
 
     List<ProductDTOForSupplier> productsToProductDTOsForSupplier(List<Product> product);

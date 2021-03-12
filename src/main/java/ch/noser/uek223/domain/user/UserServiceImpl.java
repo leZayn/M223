@@ -1,8 +1,6 @@
 package ch.noser.uek223.domain.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -15,8 +13,8 @@ import java.util.UUID;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository userRepository;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private UserRepository userRepository;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
@@ -31,15 +29,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findById(UUID id) {
-        return userRepository.findById(id).get();
+        Optional<User> userOptional = userRepository.findById(id);
+        return userOptional.orElseGet(User::new);
     }
 
     @Override
-    public User create(User user) {
+    public User save(User user) {
         Optional<User> optional = userRepository.findByEmail(user.getEmail());
 
         if (optional.isPresent()) {
-            throw new RuntimeException(String.format("%s with Email '%s' already exists", "User", user.getEmail()));
+            return new User();
         }
 
         user.setId(null);

@@ -8,6 +8,8 @@ import ch.noser.uek223.domain.user.dto.UserDTOBasic;
 import ch.noser.uek223.domain.user.UserMapper;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -61,7 +63,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
                 return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             } catch (JwtException | NoSuchElementException exception) {
-                System.err.println(exception.getMessage());
+                Logger logger = LoggerFactory.getLogger(AuthenticationServiceImpl.class);
+                logger.error(exception.getMessage());
             }
         }
 

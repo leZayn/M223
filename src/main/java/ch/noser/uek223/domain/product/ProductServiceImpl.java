@@ -4,12 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
 public class ProductServiceImpl implements ProductService {
 
-    private final ProductRepository productRepository;
+    private ProductRepository productRepository;
 
     @Autowired
     public ProductServiceImpl(ProductRepository productRepository) {
@@ -28,7 +29,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product findById(UUID id) {
-        return productRepository.findById(id).get();
+        Optional<Product> productOptional = productRepository.findById(id);
+        return productOptional.orElseGet(Product::new);
     }
 
     @Override
@@ -40,9 +42,14 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product archiveById(UUID id) {
-        Product product = productRepository.findById(id).get();
-        product.setArchived(true);
-        productRepository.save(product);
-        return product;
+        Optional<Product> productOptional = productRepository.findById(id);
+        if (productOptional.isPresent()) {
+            Product product = productOptional.get();
+            product.setArchived(true);
+            productRepository.save(product);
+            return product;
+        } else {
+            return new Product();
+        }
     }
 }

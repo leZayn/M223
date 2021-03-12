@@ -13,8 +13,8 @@ import java.util.UUID;
 @RequestMapping("/products")
 public class ProductWeb {
 
-    private final ProductService productService;
-    private final ProductMapper productMapper;
+    private ProductService productService;
+    private ProductMapper productMapper;
 
     @Autowired
     public ProductWeb(ProductService productService, ProductMapper productMapper) {
@@ -22,57 +22,32 @@ public class ProductWeb {
         this.productMapper = productMapper;
     }
 
-    // Customer
-
-//    @GetMapping({"", "/"})
-//    public ResponseEntity<List<ProductDTOCustomer>> findNonArchived() {
-//        return ResponseEntity.ok().body(productMapper.productsToProductDTOCustomers(productService.findByArchived(false)));
-//    }
-//
-//    @GetMapping(value = {"", "/"}, params = {"inclArchived=true"})
-//    public ResponseEntity<List<ProductDTOCustomer>> findAll() {
-//        return ResponseEntity.ok().body(productMapper.productsToProductDTOCustomers(productService.findAll()));
-//    }
-//
-//    @GetMapping({"/{id}", "/{id}/"})
-//    public ResponseEntity<ProductDTOCustomer> findById(@PathVariable("id") UUID id) {
-//        return ResponseEntity.ok().body(productMapper.productToProductDTOCustomer(productService.findById(id)));
-//    }
-//
-//    @GetMapping({"/{lower}/{upper}", "/{lower}/{upper}/"})
-//    public ResponseEntity<List<ProductDTOCustomer>> findByPriceWithBounds(@PathVariable("lower") float lower, @PathVariable("upper") float upper) {
-//        return ResponseEntity.ok().body(productMapper.productsToProductDTOCustomers(productService.findByPriceWithBounds(lower, upper)));
-//    }
-//
-//    @DeleteMapping({"/{id}", "/{id}/"})
-//    public ResponseEntity<ProductDTOCustomer> archiveById(@PathVariable("id") UUID id) {
-//        return ResponseEntity.ok().body(productMapper.productToProductDTOCustomer(productService.archiveById(id)));
-//    }
-
-    // Supplier
-
     @GetMapping({"", "/"})
-    @PreAuthorize("hasAnyAuthority('CAN_RETRIEVE_ALL_PRODUCTS')")
+    @PreAuthorize("hasRole('SUPPLIER')")
     public ResponseEntity<List<ProductDTOForSupplier>> findNonArchivedForSupplier() {
         return ResponseEntity.ok().body(productMapper.productsToProductDTOsForSupplier(productService.findByArchived(false)));
     }
 
     @GetMapping(value = {"", "/"}, params = {"inclArchived=true"})
+    @PreAuthorize("hasRole('SUPPLIER')")
     public ResponseEntity<List<ProductDTOForSupplier>> findAllForSupplier() {
         return ResponseEntity.ok().body(productMapper.productsToProductDTOsForSupplier(productService.findAll()));
     }
 
     @GetMapping({"/{id}", "/{id}/"})
+    @PreAuthorize("hasRole('SUPPLIER')")
     public ResponseEntity<ProductDTOForSupplier> findByIdForSupplier(@PathVariable("id") UUID id) {
         return ResponseEntity.ok().body(productMapper.productToProductDTOForSupplier(productService.findById(id)));
     }
 
     @GetMapping({"/{lower}/{upper}", "/{lower}/{upper}/"})
+    @PreAuthorize("hasRole('SUPPLIER')")
     public ResponseEntity<List<ProductDTOForSupplier>> findByPriceWithBoundsForSupplier(@PathVariable("lower") float lower, @PathVariable("upper") float upper) {
         return ResponseEntity.ok().body(productMapper.productsToProductDTOsForSupplier(productService.findByPriceWithBounds(lower, upper)));
     }
 
     @DeleteMapping({"/{id}", "/{id}/"})
+    @PreAuthorize("hasRole('SUPPLIER')")
     public ResponseEntity<ProductDTOForSupplier> archiveByIdForSupplier(@PathVariable("id") UUID id) {
         return ResponseEntity.ok().body(productMapper.productToProductDTOForSupplier(productService.archiveById(id)));
     }
